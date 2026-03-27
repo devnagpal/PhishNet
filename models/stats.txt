@@ -1,0 +1,2 @@
+Testing Accuracy: 100.00%
+Total Emails Trained On: 22

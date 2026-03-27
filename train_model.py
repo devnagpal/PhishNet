@@ -44,8 +44,10 @@ class SpamDetectorTrainer:
     def train_and_save(self):
         self.create_dummy_data()
         X,y=self.load_data()
+        
         print("Splitting data into training and testing sets...")
         X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2,random_state=42)
+
         print("Converting text to numbers (TF-IDF)...")
         vectorizer=TfidfVectorizer(stop_words='english')
         X_train_vec=vectorizer.fit_transform(X_train)

@@ -61,16 +61,30 @@ Before you can analyze emails, the AI needs to build its "brains." You must run 
 ```bash
 python train_model.py
 ```
-![alt text](image.png)
+<img width="721" height="185" alt="image" src="https://github.com/user-attachments/assets/374bca08-52a5-461f-92c9-9a883632080a" />
 
 ### 2. Running the Application
 Once trained, launch the main interactive terminal app.
 ```bash
 python app.py
 ```
+<img width="557" height="247" alt="image-1" src="https://github.com/user-attachments/assets/a524fbdb-56cb-4a73-9d0f-33d6d7b95526" />
+
 
 ## Adding Your Own Data 
 To make the AI smarter (such as adding the exact emails your Placement Office warned you about):
 1. Open the auto-generated `data/dataset.csv` file in Notepad or Excel.
 2. Add a new row. Paste the spam message entirely in the first column, and place a `1` in the label column. Let `0` represent normal, safe emails.
 3. Save the file and simply run `python train_model.py` again! The model will instantly update itself and learn from your new examples.
+
+## Screenshots
+<img width="1896" height="659" alt="image-2" src="https://github.com/user-attachments/assets/a1a83ea5-c872-4cf1-b9d7-883582ca81fa" />
+
+<img width="864" height="436" alt="image-3" src="https://github.com/user-attachments/assets/e9893af8-3e0f-40e8-859c-af671b146971" />
+
+<img width="796" height="365" alt="image-4" src="https://github.com/user-attachments/assets/dd64420c-ad6e-4bbf-91f9-d1a02016e4e5" />
+
+<img width="712" height="208" alt="image-5" src="https://github.com/user-attachments/assets/1e66385f-88ee-4288-923a-ed17c4ad0de3" />
+
+
+

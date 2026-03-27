@@ -7,6 +7,22 @@ class CampusMailCLI:
         self.model=None
         self.vectorizer=None
 
+    def load_model(self):
+        model_path=os.path.join(self.model_dir,"model.pkl")
+        vec_path=os.path.join(self.model_dir,"vectorizer.pkl")
+        try:
+            with open(model_path,"rb") as f:
+                self.model=pickle.load(f)
+            with open(vec_path,"rb") as f:
+                self.vectorizer=pickle.load(f)
+            return True
+        except FileNotFoundError:
+            print("ERROR: Model files not found! Please run 'python train_model.py' first.")
+            return False
+        except Exception as e:
+            print(f"ERROR: Failed to load model files: {e}")
+            return False
+
     def get_multi_line_input(self):
         print("\nEnter the email text line by line. Press Enter twice (an empty line) to analyze.")
         print("-"*82)
@@ -24,6 +40,28 @@ class CampusMailCLI:
                     break
             lines.append(line)
         return " ".join(lines)
+
+    def analyze_email(self):
+        if not self.model or not self.vectorizer:
+            print("Model is not loaded. Cannot analyze.")
+            return
+
+        email_text=self.get_multi_line_input()
+
+        features=self.vectorizer.transform([email_text])
+        prediction=self.model.predict(features)[0]
+        
+        probabilities=self.model.predict_proba(features)[0]
+        confidence=probabilities[prediction]*100
+
+        print("="*15,"Analysis Result","="*15)
+        if prediction==1:
+            print(f"RESULT: SPAM / SCAM DETECTED ({confidence:.2f}% Confidence)")
+            print("WARNING! : This looks like a fake email!")
+        else:
+            print(f"RESULT: SAFE EMAIL ({confidence:.2f}% Confidence)")
+            print("This email appears to be legitimate.")
+        print("="*47)
 
     def view_stats(self):
         stats_path=os.path.join(self.model_dir,"stats.txt")

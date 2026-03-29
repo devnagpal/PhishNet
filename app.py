@@ -23,7 +23,7 @@ class CampusMailCLI:
             print(f"ERROR: Failed to load model files: {e}")
             return False
 
-    def get_multi_line_input(self):
+    def multiline_input(self):
         print("\nEnter the email text line by line. Press Enter twice (an empty line) to analyze.")
         print("-"*82)
         lines=[]
@@ -41,12 +41,12 @@ class CampusMailCLI:
             lines.append(line)
         return " ".join(lines)
 
-    def analyze_email(self):
+    def analyze(self):
         if not self.model or not self.vectorizer:
             print("Model is not loaded. Cannot analyze.")
             return
 
-        email_text=self.get_multi_line_input()
+        email_text=self.multiline_input()
 
         features=self.vectorizer.transform([email_text])
         prediction=self.model.predict(features)[0]
@@ -56,28 +56,27 @@ class CampusMailCLI:
 
         print("="*15,"Analysis Result","="*15)
         if prediction==1:
-            print(f"RESULT: SPAM / SCAM DETECTED ({confidence:.2f}% Confidence)")
+            print(f"RESULT: SCAM DETECTED ({confidence:.2f}% Confidence)")
             print("WARNING! : This looks like a fake email!")
         else:
             print(f"RESULT: SAFE EMAIL ({confidence:.2f}% Confidence)")
             print("This email appears to be legitimate.")
         print("="*47)
 
-    def view_stats(self):
+    def stats(self):
         stats_path=os.path.join(self.model_dir,"stats.txt")
         print("="*15,"Model Statistics","="*15)
         try:
             with open(stats_path,"r") as f:
                 print(f.read().strip())
         except FileNotFoundError:
-            print("No testing data found. Did you run the training script?")
+            print("No testing data found.")
         print("="*41)
 
-    def view_help(self):
+    def help(self):
         print("="*15,"Help / About","="*15)
         print("PhishNet is an AI-powered Text Classifier.")
-        print("It uses Natural Language Processing (TF-IDF) and Naive Bayes")
-        print("to detect targeted campus scams, such as:")
+        print("It uses Natural Language Processing (TF-IDF) and Naive Bayes to detect targeted campus scams, such as:")
         print("- Fake 'Paid Internships'")
         print("- Fake scholarship offers")
         print("- Urgent 'Account Suspension' phishing")
@@ -98,11 +97,11 @@ class CampusMailCLI:
             print("-"*41)
             choice=input("Enter Your Choice (1-4): ")
             if choice=="1":
-                self.analyze_email()
+                self.analyze()
             elif choice=="2":
-                self.view_stats()
+                self.stats()
             elif choice=="3":
-                self.view_help()
+                self.help()
             elif choice=="4":
                 print("Exiting PhishNet. Stay safe out there!")
                 break
